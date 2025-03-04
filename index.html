@@ -4,16 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Handbok för Bostadsrättsförening</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        /* Grundläggande stilar och responsiv design */
         :root {
-            --primary-color: #3498db;
+            --primary-color: #3e67b1;
+            --primary-light: #ebf1fa;
             --secondary-color: #2c3e50;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #34495e;
-            --text-color: #333;
-            --link-color: #2980b9;
+            --accent-color: #e67e22;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --text-color: #212529;
+            --text-muted: #6c757d;
+            --border-color: #dee2e6;
+            --shadow-sm: 0 .125rem .25rem rgba(0,0,0,.075);
+            --shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+            --transition: all 0.3s ease;
+            --radius: 8px;
         }
         
         * {
@@ -26,154 +35,397 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
-            background-color: var(--light-color);
-            padding-bottom: 2rem;
+            background-color: #f5f7fa;
+            padding-bottom: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         a {
-            color: var(--link-color);
+            color: var(--primary-color);
             text-decoration: none;
+            transition: var(--transition);
         }
         
         a:hover {
-            text-decoration: underline;
+            color: var(--accent-color);
+        }
+        
+        .container {
+            display: flex;
+            flex: 1;
         }
         
         /* Header styling */
         header {
             background-color: var(--primary-color);
             color: white;
-            padding: 1rem;
-            text-align: center;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
             position: sticky;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        header h1 {
-            margin-bottom: 0.5rem;
-            font-size: 1.8rem;
-        }
-        
-        /* Navigering */
-        nav {
-            background-color: var(--secondary-color);
-            padding: 0.5rem;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-        
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
-        
-        nav ul li {
-            margin: 0.5rem;
-        }
-        
-        nav ul li a {
-            color: white;
-            padding: 0.5rem;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        nav ul li a:hover {
-            background-color: var(--dark-color);
-            text-decoration: none;
-        }
-        
-        /* Huvudinnehåll */
-        main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
-            border-radius: 5px;
-        }
-        
-        /* Sektioner och innehåll */
-        section {
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 1.5rem;
-        }
-        
-        section:last-child {
-            border-bottom: none;
-        }
-        
-        h2 {
-            color: var(--primary-color);
-            margin: 1.5rem 0 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--primary-color);
-        }
-        
-        h3 {
-            color: var(--secondary-color);
-            margin: 1.2rem 0 0.8rem;
-        }
-        
-        p, ul, ol {
-            margin-bottom: 1rem;
-        }
-        
-        ul, ol {
-            padding-left: 2rem;
-        }
-        
-        /* Accordion för FAQ */
-        .faq-item {
-            border: 1px solid #ddd;
-            margin-bottom: 0.5rem;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .faq-question {
-            padding: 1rem;
-            background-color: #f8f9fa;
-            cursor: pointer;
+            z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background-color 0.3s;
         }
         
-        .faq-question:hover {
-            background-color: #e9ecef;
+        header .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
-        .faq-question::after {
-            content: '+';
+        header .logo i {
             font-size: 1.5rem;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        
+        /* Side navigation */
+        .sidebar {
+            width: 280px;
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem 0;
+            height: calc(100vh - 64px);
+            overflow-y: auto;
+            position: sticky;
+            top: 64px;
+            transition: var(--transition);
+        }
+        
+        .sidebar-header {
+            padding: 0 1.5rem 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .sidebar-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin: 0.25rem 0;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-color);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-link i {
+            width: 1.5rem;
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+            text-align: center;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .nav-link:hover i {
             color: var(--primary-color);
         }
         
-        .faq-answer {
-            padding: 0 1rem;
+        .nav-link.active {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            font-weight: 600;
+            border-right: 3px solid var(--primary-color);
+        }
+        
+        .nav-link.active i {
+            color: var(--primary-color);
+        }
+        
+        /* Main content area */
+        .content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 100%;
+        }
+        
+        .page-title {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+        
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: var(--radius);
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background-color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .card-title {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .card-icon {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Typography for card content */
+        .card-body h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+        
+        .card-body h3:first-child {
+            margin-top: 0;
+        }
+        
+        .card-body p {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        
+        .card-body ul, .card-body ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+        }
+        
+        .card-body li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* FAQ accordion styling */
+        .accordion {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .accordion-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .accordion-header {
+            margin: 0;
+        }
+        
+        .accordion-button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 1.5rem;
+            width: 100%;
+            text-align: left;
+            background-color: white;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+        
+        .accordion-button:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .accordion-button i {
+            transition: var(--transition);
+            font-size: 0.9rem;
+            color: var(--primary-color);
+        }
+        
+        .accordion-button[aria-expanded="true"] {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .accordion-button[aria-expanded="true"] i {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-collapse {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
+        }
+        
+        .accordion-body {
+            padding: 1.5rem;
             background-color: white;
         }
         
-        .faq-item.active .faq-question::after {
-            content: '-';
+        /* Alert boxes */
+        .alert {
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            border-radius: var(--radius);
+            border-left: 4px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
         }
         
-        .faq-item.active .faq-answer {
-            padding: 1rem;
-            max-height: 500px;
+        .alert i {
+            font-size: 1.25rem;
+            margin-top: 0.25rem;
         }
         
-        /* Tillbaka till toppen-knapp */
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-info {
+            background-color: var(--primary-light);
+            border-left-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .alert-success {
+            background-color: #ebfaf0;
+            border-left-color: var(--success-color);
+            color: var(--success-color);
+        }
+        
+        .alert-warning {
+            background-color: #fff8ec;
+            border-left-color: var(--warning-color);
+            color: var(--warning-color);
+        }
+        
+        .alert-danger {
+            background-color: #feeeec;
+            border-left-color: var(--danger-color);
+            color: var(--danger-color);
+        }
+        
+        /* Table styling */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        
+        .table th, .table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .table th {
+            background-color: var(--primary-light);
+            font-weight: 600;
+            text-align: left;
+            color: var(--primary-color);
+        }
+        
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Responsive table */
+        .table-responsive {
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Footer styling */
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: auto;
+        }
+        
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+        
+        footer p:last-child {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Back to top button */
         .back-to-top {
             position: fixed;
             bottom: 2rem;
@@ -186,396 +438,449 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            text-decoration: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: var(--shadow);
             opacity: 0;
-            transition: opacity 0.3s;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 99;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
         }
         
         .back-to-top.visible {
             opacity: 1;
+            visibility: visible;
         }
         
-        .back-to-top:hover {
-            background-color: var(--dark-color);
-        }
-        
-        footer {
-            text-align: center;
-            padding: 1.5rem;
-            background-color: var(--secondary-color);
-            color: white;
-            margin-top: 2rem;
-        }
-        
-        /* Responsiv design för mindre skärmar */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.5rem;
+        /* Print styling */
+        @media print {
+            .sidebar, .back-to-top, .hamburger {
+                display: none;
             }
             
-            nav ul {
+            .content {
+                padding: 0;
+                margin: 0;
+                max-width: 100%;
+            }
+            
+            header {
+                position: static;
+                box-shadow: none;
+                color: black;
+                background: white;
+                padding: 1rem 0;
+                margin-bottom: 1rem;
+            }
+            
+            header h1 {
+                color: black;
+            }
+            
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                break-inside: avoid;
+                margin-bottom: 1rem;
+            }
+            
+            .card:hover {
+                box-shadow: none;
+                transform: none;
+            }
+            
+            footer {
+                background: white;
+                color: black;
+                border-top: 1px solid #ddd;
+                padding: 1rem 0;
+            }
+        }
+        
+        /* Responsive design for tablet */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 240px;
+            }
+        }
+        
+        /* Responsive design for mobile */
+        @media (max-width: 768px) {
+            .container {
                 flex-direction: column;
-                align-items: center;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                width: 280px;
+                z-index: 999;
+                height: 100vh;
+                top: 64px;
+                box-shadow: var(--shadow);
+            }
+            
+            .sidebar.open {
+                left: 0;
+            }
+            
+            .content {
+                padding: 1.5rem;
+            }
+            
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 998;
+                display: none;
+            }
+            
+            .overlay.active {
+                display: block;
             }
             
             .back-to-top {
                 width: 40px;
                 height: 40px;
-                bottom: 1rem;
-                right: 1rem;
+                bottom: 1.5rem;
+                right: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Handbok för Bostadsrättsförening</h1>
-        <p>En guide för medlemmar och boende</p>
+        <div class="logo">
+            <i class="fas fa-building"></i>
+            <h1>BRF Handbok</h1>
+        </div>
+        <button class="hamburger" aria-label="Meny">
+            <i class="fas fa-bars"></i>
+        </button>
     </header>
     
-    <nav>
-        <ul>
-            <li><a href="#valkommen">Välkommen</a></li>
-            <li><a href="#om-foreningen">Om föreningen</a></li>
-            <li><a href="#styrelsen">Styrelsen</a></li>
-            <li><a href="#medlemskap">Medlemskap</a></li>
-            <li><a href="#stadgar">Stadgar</a></li>
-            <li><a href="#ekonomi">Ekonomi</a></li>
-            <li><a href="#underhall">Underhåll</a></li>
-            <li><a href="#gemensamma">Gemensamma utrymmen</a></li>
-            <li><a href="#sakerhet">Säkerhet</a></li>
-            <li><a href="#miljo">Miljö</a></li>
-            <li><a href="#kontakt">Kontakt</a></li>
-            <li><a href="#faq">Vanliga frågor</a></li>
-        </ul>
-    </nav>
-    
-    <main>
-        <section id="valkommen">
-            <h2>Välkommen</h2>
-            <p>Välkommen till Bostadsrättsföreningen [Namn]. Denna handbok är framtagen för att ge dig som medlem viktig information om föreningen och ditt boende. Här hittar du riktlinjer, regler och praktisk information som hjälper dig i din vardag som bostadsrättsinnehavare.</p>
-        </section>
-        
-        <section id="om-foreningen">
-            <h2>Om föreningen</h2>
-            <p>Bostadsrättsföreningen [Namn] bildades [år] och består av [antal] lägenheter fördelade på [antal] hus. Föreningens fastighet(er) är belägen på [adress] i [ort].</p>
-            
-            <h3>Föreningens historia</h3>
-            <p>[Kort beskrivning av föreningens historia, när husen byggdes, eventuella större renoveringar etc.]</p>
-            
-            <h3>Föreningens vision</h3>
-            <p>[Beskriv föreningens mål och vision]</p>
-        </section>
-        
-        <section id="styrelsen">
-            <h2>Styrelsen</h2>
-            <p>Föreningen leds av en styrelse som väljs av medlemmarna på årsstämman. Styrelsen ansvarar för föreningens förvaltning och ekonomi.</p>
-            
-            <h3>Styrelsens sammansättning</h3>
-            <ul>
-                <li>Ordförande: [Namn]</li>
-                <li>Sekreterare: [Namn]</li>
-                <li>Kassör: [Namn]</li>
-                <li>Ledamöter: [Namn], [Namn]</li>
-                <li>Suppleanter: [Namn], [Namn]</li>
-            </ul>
-            
-            <h3>Styrelsemöten</h3>
-            <p>Styrelsen har möte [ange intervall, t.ex. "en gång i månaden"] där löpande ärenden behandlas. Om du har ärenden som du vill att styrelsen ska ta upp, kontakta [kontaktperson/e-post].</p>
-            
-            <h3>Årsstämma</h3>
-            <p>Föreningens årsstämma hålls vanligtvis i [månad]. Kallelse skickas ut minst [antal] veckor innan stämman. På årsstämman behandlas bland annat årsredovisning, val av styrelse och revisor, samt motioner från medlemmarna.</p>
-        </section>
-        
-        <section id="medlemskap">
-            <h2>Medlemskap och boende</h2>
-            
-            <h3>Att vara medlem</h3>
-            <p>Som bostadsrättsinnehavare är du medlem i föreningen och äger rätten att bo i din lägenhet. Du har både rättigheter och skyldigheter gentemot föreningen.</p>
-            
-            <h3>Överlåtelse (försäljning)</h3>
-            <p>När du säljer din bostadsrätt måste köparen godkännas som medlem i föreningen. Ansökan om medlemskap skickas till styrelsen. Överlåtelseavgift [belopp] kr betalas av [säljaren/köparen].</p>
-            
-            <h3>Andrahandsuthyrning</h3>
-            <p>För att hyra ut din lägenhet i andra hand krävs styrelsens godkännande. Ansökan ska innehålla:</p>
-            <ul>
-                <li>Skäl för uthyrning</li>
-                <li>Uthyrningsperiod</li>
-                <li>Information om hyresgästen</li>
-                <li>Dina kontaktuppgifter under uthyrningsperioden</li>
-            </ul>
-            <p>Avgift för andrahandsuthyrning är [belopp] kr per år.</p>
-            
-            <h3>Ändring i lägenheten</h3>
-            <p>För att göra väsentliga ändringar i lägenheten krävs styrelsens godkännande. Detta gäller särskilt ändringar som:</p>
-            <ul>
-                <li>Berör bärande konstruktioner</li>
-                <li>Ändringar av existerande ledningar för avlopp, värme, vatten eller ventilation</li>
-                <li>Andra väsentliga förändringar av lägenheten</li>
-            </ul>
-            <p>Ansökan om ombyggnation skickas till [e-post/kontaktperson].</p>
-        </section>
-        
-        <section id="stadgar">
-            <h2>Stadgar och regler</h2>
-            
-            <h3>Föreningens stadgar</h3>
-            <p>Föreningens stadgar finns tillgängliga [ange var, t.ex. "på föreningens hemsida" eller "hos styrelsen"]. Alla medlemmar uppmanas att ta del av stadgarna.</p>
-            
-            <h3>Ordningsregler</h3>
-            <p>För allas trivsel gäller följande ordningsregler:</p>
-            <ul>
-                <li>Störande ljud ska undvikas mellan kl. [tid] och [tid].</li>
-                <li>Grillning på balkong/uteplats är [tillåtet/inte tillåtet/tillåtet med vissa restriktioner].</li>
-                <li>Husdjur ska hållas under uppsikt och får inte störa övriga boende.</li>
-                <li>[Övriga relevanta regler]</li>
-            </ul>
-        </section>
-        
-        <section id="ekonomi">
-            <h2>Ekonomi och avgifter</h2>
-            
-            <h3>Månadsavgift</h3>
-            <p>Månadsavgiften ska betalas i förskott senast den [datum] varje månad. Avgiften täcker föreningens gemensamma kostnader som:</p>
-            <ul>
-                <li>Drift och underhåll av fastigheten</li>
-                <li>Uppvärmning</li>
-                <li>Vatten</li>
-                <li>Fastighetsskatt</li>
-                <li>Föreningens lån</li>
-                <li>[Övriga relevanta kostnader]</li>
-            </ul>
-            
-            <h3>Avisering</h3>
-            <p>Avgiften aviseras [ange hur, t.ex. "kvartalsvis" eller "månadsvis"] via [ange metod, t.ex. "autogiro", "e-faktura" eller "pappersfaktura"].</p>
-            
-            <h3>Övriga avgifter</h3>
-            <ul>
-                <li>Överlåtelseavgift: [belopp] kr</li>
-                <li>Pantsättningsavgift: [belopp] kr</li>
-                <li>Avgift för andrahandsuthyrning: [belopp] kr</li>
-            </ul>
-        </section>
-        
-        <section id="underhall">
-            <h2>Underhåll och renovering</h2>
-            
-            <h3>Ansvarsfördelning</h3>
-            <p>Det är viktigt att känna till vad som är ditt ansvar som bostadsrättshavare och vad som är föreningens ansvar.</p>
-            
-            <h4>Bostadsrättshavarens ansvar:</h4>
-            <ul>
-                <li>Lägenhetens inre underhåll inklusive ytskikt, innerdörrar och innerväggar</li>
-                <li>Kök- och badrumsinredning</li>
-                <li>Vitvaror och sanitetsporslin</li>
-                <li>Elinstallationer innanför lägenhetens säkringsskåp</li>
-                <li>[Övriga relevanta ansvarsområden]</li>
-            </ul>
-            
-            <h4>Föreningens ansvar:</h4>
-            <ul>
-                <li>Fastighetens yttre underhåll</li>
-                <li>Bärande konstruktioner</li>
-                <li>Stamledningar för vatten, avlopp, el, värme och ventilation</li>
-                <li>Fastighetens gemensamma utrymmen</li>
-                <li>[Övriga relevanta ansvarsområden]</li>
-            </ul>
-            
-            <h3>Underhållsplan</h3>
-            <p>Föreningen har en långsiktig underhållsplan som uppdateras regelbundet. Kommande större underhållsarbeten för de närmaste åren inkluderar:</p>
-            <ul>
-                <li>[Planerat underhåll 1] - Planerat [år]</li>
-                <li>[Planerat underhåll 2] - Planerat [år]</li>
-                <li>[Planerat underhåll 3] - Planerat [år]</li>
-            </ul>
-        </section>
-        
-        <section id="gemensamma">
-            <h2>Gemensamma utrymmen</h2>
-            
-            <h3>Tvättstuga</h3>
-            <p>Tvättstugan är belägen [plats] och bokas via [bokningssystem]. Följande regler gäller:</p>
-            <ul>
-                <li>Tvättider: [tider]</li>
-                <li>Städning efter användning är obligatoriskt</li>
-                <li>Fel på maskiner anmäls till [kontaktperson/e-post]</li>
-            </ul>
-            
-            <h3>Innergård/uteplats</h3>
-            <p>Föreningens innergård/uteplats får användas av alla medlemmar. [Eventuella specifika regler]</p>
-            
-            <h3>Förråd</h3>
-            <p>Till varje lägenhet hör ett förråd beläget [plats]. Förråden är märkta med lägenhetsnummer.</p>
-            
-            <h3>Cykelförvaring</h3>
-            <p>Cyklar kan förvaras i [plats]. [Eventuella specifika regler]</p>
-        </section>
-        
-        <section id="sakerhet">
-            <h2>Säkerhet</h2>
-            
-            <h3>Brandskydd</h3>
-            <ul>
-                <li>Varje lägenhet ska vara utrustad med fungerande brandvarnare.</li>
-                <li>Håll trapphus fria från föremål som kan hindra utrymning eller försvåra räddningstjänstens arbete.</li>
-                <li>Vid brand, ring 112 och följ utrymningsplanen som finns [plats].</li>
-            </ul>
-            
-            <h3>Nycklar och låssystem</h3>
-            <p>Information om föreningens nyckelsystem och hur man beställer extra nycklar:</p>
-            <ul>
-                <li>Nycklar administreras av [kontaktperson/företag]</li>
-                <li>För beställning av extranyckel, kontakta [kontaktperson/e-post]</li>
-                <li>Kostnad för extranyckel: [belopp] kr</li>
-            </ul>
-            
-            <h3>Försäkring</h3>
-            <p>Föreningen har en fastighetsförsäkring hos [försäkringsbolag]. Denna täcker dock inte ditt personliga lösöre eller inre underhåll. Alla medlemmar rekommenderas starkt att teckna en hemförsäkring med bostadsrättstillägg.</p>
-        </section>
-        
-        <section id="miljo">
-            <h2>Miljö och sophantering</h2>
-            
-            <h3>Sopsortering</h3>
-            <p>Föreningens sopsortering är belägen [plats]. Följande fraktioner kan sorteras:</p>
-            <ul>
-                <li>Hushållsavfall</li>
-                <li>Matavfall</li>
-                <li>Papper/tidningar</li>
-                <li>Plast</li>
-                <li>Glas</li>
-                <li>Metall</li>
-                <li>[Eventuella ytterligare fraktioner]</li>
-            </ul>
-            
-            <h3>Grovavfall och farligt avfall</h3>
-            <p>Grovavfall och farligt avfall får inte placeras i soprummet utan ska lämnas på [närmaste återvinningscentral/plats].</p>
-            
-            <h3>Energi- och vattenanvändning</h3>
-            <p>För att minimera föreningens miljöpåverkan och kostnader uppmanas alla medlemmar att:</p>
-            <ul>
-                <li>Stänga av elektronik när den inte används</li>
-                <li>Anmäla droppande kranar och rinnande toaletter omedelbart</li>
-                <li>Använda vattensnåla duschhandtag och kranar</li>
-                <li>[Eventuella ytterligare tips]</li>
-            </ul>
-        </section>
-        
-        <section id="kontakt">
-            <h2>Kontaktinformation</h2>
-            
-            <h3>Styrelsen</h3>
-            <ul>
-                <li>E-post: [e-post]</li>
-                <li>Postadress: [adress]</li>
-                <li>Styrelsens brevlåda: [plats]</li>
-            </ul>
-            
-            <h3>Förvaltning</h3>
-            <ul>
-                <li>Ekonomisk förvaltning: [företag/kontaktperson], tel: [telefonnummer], e-post: [e-post]</li>
-                <li>Teknisk förvaltning: [företag/kontaktperson], tel: [telefonnummer], e-post: [e-post]</li>
-            </ul>
-            
-            <h3>Felanmälan</h3>
-            <ul>
-                <li>Akuta ärenden (vardagar 08-17): [telefonnummer]</li>
-                <li>Akuta ärenden (övrig tid): [telefonnummer]</li>
-                <li>Icke-akuta ärenden: [e-post/webbformulär]</li>
-            </ul>
-            
-            <h3>Viktiga telefonnummer</h3>
-            <ul>
-                <li>SOS Alarm: 112</li>
-                <li>Polis (ej akut): 114 14</li>
-                <li>Sjukvårdsrådgivning: 1177</li>
-                <li>Störningsjour: [telefonnummer]</li>
-            </ul>
-        </section>
-        
-        <section id="faq">
-            <h2>Vanliga frågor</h2>
-            
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-question">Får jag installera diskmaskin/tvättmaskin i min lägenhet?</div>
-                    <div class="faq-answer">
-                        <p>[Svar]</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">Hur gör jag om jag har problem med värmen i lägenheten?</div>
-                    <div class="faq-answer">
-                        <p>[Svar]</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">Vad gäller för renovering av badrum?</div>
-                    <div class="faq-answer">
-                        <p>[Svar]</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">Hur anmäler jag mig till autogiro för månadsavgiften?</div>
-                    <div class="faq-answer">
-                        <p>[Svar]</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">Får jag sätta upp parabol/antenn på fasaden eller balkongen?</div>
-                    <div class="faq-answer">
-                        <p>[Svar]</p>
-                    </div>
-                </div>
+    <div class="container">
+        <div class="overlay"></div>
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">Innehåll</div>
             </div>
-        </section>
-    </main>
-    
-    <footer>
-        <p>Denna handbok är senast uppdaterad [datum].</p>
-        <p>Observera att innehållet i denna handbok är vägledande. Vid eventuella skillnader mellan handboken och föreningens stadgar eller beslut, är det stadgarna och styrelsebesluten som gäller.</p>
-    </footer>
-    
-    <a href="#" class="back-to-top">↑</a>
-    
-    <script>
-        // Hantera FAQ-accordion
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const faqItem = question.parentElement;
-                faqItem.classList.toggle('active');
-            });
-        });
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#valkommen" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        Välkommen
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#om-foreningen" class="nav-link">
+                        <i class="fas fa-info-circle"></i>
+                        Om föreningen
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#styrelsen" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        Styrelsen
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#medlemskap" class="nav-link">
+                        <i class="fas fa-id-card"></i>
+                        Medlemskap
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#stadgar" class="nav-link">
+                        <i class="fas fa-gavel"></i>
+                        Stadgar och regler
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#ekonomi" class="nav-link">
+                        <i class="fas fa-coins"></i>
+                        Ekonomi och avgifter
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#underhall" class="nav-link">
+                        <i class="fas fa-tools"></i>
+                        Underhåll och renovering
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#gemensamma" class="nav-link">
+                        <i class="fas fa-door-open"></i>
+                        Gemensamma utrymmen
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#sakerhet" class="nav-link">
+                        <i class="fas fa-shield-alt"></i>
+                        Säkerhet
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#miljo" class="nav-link">
+                        <i class="fas fa-leaf"></i>
+                        Miljö och sophantering
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#kontakt" class="nav-link">
+                        <i class="fas fa-address-book"></i>
+                        Kontaktinformation
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#faq" class="nav-link">
+                        <i class="fas fa-question-circle"></i>
+                        Vanliga frågor
+                    </a>
+                </li>
+            </ul>
+        </aside>
         
-        // Visa/dölj "tillbaka till toppen"-knappen
-        const backToTopButton = document.querySelector('.back-to-top');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopButton.classList.add('visible');
-            } else {
-                backToTopButton.classList.remove('visible');
-            }
-        });
-        
-        // Mjuk skrollning för ankarlänkar
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
+        <main class="content">
+            <!-- Välkommen sektion -->
+            <section id="valkommen">
+                <h2 class="page-title">Välkommen till BRF Handboken</h2>
                 
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3 class="card-title">Välkommen</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <div class="alert-content">
+                                <p>Denna handbok innehåller viktig information om ditt boende i BRF [Namn]. Ta dig tid att läsa igenom den för att få en bra start i föreningen.</p>
+                            </div>
+                        </div>
+                        
+                        <p>Välkommen till Bostadsrättsföreningen [Namn]! I denna handbok hittar du viktig information om föreningen och ditt boende. Här finns riktlinjer, regler och praktisk information som hjälper dig i din vardag som bostadsrättsinnehavare.</p>
+                        
+                        <p>Som medlem i en bostadsrättsförening äger du rätten att bo i din lägenhet och du är delägare i föreningen. Det ger både rättigheter och skyldigheter som är viktiga att känna till.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Om föreningen sektion -->
+            <section id="om-foreningen">
+                <h2 class="page-title">Om föreningen</h2>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h3 class="card-title">Föreningsinformation</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Bostadsrättsföreningen [Namn] bildades [år] och består av [antal] lägenheter fördelade på [antal] hus. Föreningens fastighet(er) är belägen på [adress] i [ort].</p>
+                        
+                        <h3>Föreningens historia</h3>
+                        <p>[Kort beskrivning av föreningens historia, när husen byggdes, eventuella större renoveringar etc.]</p>
+                        
+                        <h3>Föreningens vision</h3>
+                        <p>[Beskriv föreningens mål och vision]</p>
+                        
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Fakta om föreningen</th>
+                                        <th>Information</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Organisationsnummer</td>
+                                        <td>[org.nummer]</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Antal lägenheter</td>
+                                        <td>[antal]</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Byggnadsår</td>
+                                        <td>[år]</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fastighetsbeteckning</td>
+                                        <td>[beteckning]</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Styrelsen sektion -->
+            <section id="styrelsen">
+                <h2 class="page-title">Styrelsen</h2>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="card-title">Föreningens styrelse</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Föreningen leds av en styrelse som väljs av medlemmarna på årsstämman. Styrelsen ansvarar för föreningens förvaltning och ekonomi.</p>
+                        
+                        <h3>Styrelsens sammansättning</h3>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Roll</th>
+                                        <th>Namn</th>
+                                        <th>Kontakt</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Ordförande</td>
+                                        <td>[Namn]</td>
+                                        <td>[e-post]</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sekreterare</td>
+                                        <td>[Namn]</td>
+                                        <td>[e-post]</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kassör</td>
+                                        <td>[Namn]</td>
+                                        <td>[e-post]</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ledamot</td>
+                                        <td>[Namn]</td>
+                                        <td>[e-post]</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ledamot</td>
+                                        <td>[Namn]</td>
+                                        <td>[e-post]</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <h3>Styrelsemöten</h3>
+                        <p>Styrelsen har möte [ange intervall, t.ex. "en gång i månaden"] där löpande ärenden behandlas. Om du har ärenden som du vill att styrelsen ska ta upp, kontakta [kontaktperson/e-post].</p>
+                        
+                        <h3>Årsstämma</h3>
+                        <p>Föreningens årsstämma hålls vanligtvis i [månad]. Kallelse skickas ut minst [antal] veckor innan stämman. På årsstämman behandlas bland annat årsredovisning, val av styrelse och revisor, samt motioner från medlemmarna.</p>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-lightbulb"></i>
+                            <div class="alert-content">
+                                <p>Som medlem har du rätt att lämna motioner till årsstämman. Motioner ska vara styrelsen tillhanda senast [datum] för att kunna behandlas på årets stämma.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Medlemskap sektion -->
+            <section id="medlemskap">
+                <h2 class="page-title">Medlemskap och boende</h2>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <h3 class="card-title">Att vara medlem</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Som bostadsrättsinnehavare är du medlem i föreningen och äger rätten att bo i din lägenhet. Du har både rättigheter och skyldigheter gentemot föreningen.</p>
+                        
+                        <h3>Överlåtelse (försäljning)</h3>
+                        <p>När du säljer din bostadsrätt måste köparen godkännas som medlem i föreningen. Ansökan om medlemskap skickas till styrelsen. Överlåtelseavgift [belopp] kr betalas av [säljaren/köparen].</p>
+                        
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div class="alert-content">
+                                <p>Tänk på att planera din försäljning i god tid. Handläggningstiden för godkännande av ny medlem kan ta upp till [antal] veckor.</p>
+                            </div>
+                        </div>
+                        
+                        <h3>Andrahandsuthyrning</h3>
+                        <p>För att hyra ut din lägenhet i andra hand krävs styrelsens godkännande. Ansökan ska innehålla:</p>
+                        <ul>
+                            <li>Skäl för uthyrning</li>
+                            <li>Uthyrningsperiod</li>
+                            <li>Information om hyresgästen</li>
+                            <li>Dina kontaktuppgifter under uthyrningsperioden</li>
+                        </ul>
+                        <p>Avgift för andrahandsuthyrning är [belopp] kr per år.</p>
+                        
+                        <h3>Ändring i lägenheten</h3>
+                        <p>För att göra väsentliga ändringar i lägenheten krävs styrelsens godkännande. Detta gäller särskilt ändringar som:</p>
+                        <ul>
+                            <li>Berör bärande konstruktioner</li>
+                            <li>Ändringar av existerande ledningar för avlopp, värme, vatten eller ventilation</li>
+                            <li>Andra väsentliga förändringar av lägenheten</li>
+                        </ul>
+                        <p>Ansökan om ombyggnation skickas till [e-post/kontaktperson].</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Stadgar och regler sektion -->
+            <section id="stadgar">
+                <h2 class="page-title">Stadgar och regler</h2>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <h3 class="card-title">Regler för boende</h3>
+                    </div>
+                    <div class="card-body">
+                        <h3>Föreningens stadgar</h3>
+                        <p>Föreningens stadgar finns tillgängliga [ange var, t.ex. "på föreningens hemsida" eller "hos styrelsen"]. Alla medlemmar uppmanas att ta del av stadgarna.</p>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-file-alt"></i>
+                            <div class="alert-content">
+                                <p>Du kan ladda ner föreningens stadgar <a href="#" target="_blank">här</a>.</p>
+                            </div>
+                        </div>
+                        
+                        <h3>Ordningsregler</h3>
+                        <p>För allas trivsel gäller följande ordningsregler:</p>
+                        <ul>
+                            <li>Störande ljud ska undvikas mellan kl. [tid] och [tid].</li>
+                            <li>Grillning på balkong/uteplats är [tillåtet/inte tillåtet/tillåtet med vissa restriktioner].</li>
+                            <li>Husdjur ska hållas under uppsikt och får inte störa övriga boende.</li>
+                            <li>[Övriga relevanta regler]</li>
+                        </ul>
+                        
+                        <div class="alert alert-warning">
+                            <i class="fas fa-volume-mute"></i>
+                            <div class="alert-content">
+                                <p>Visa hänsyn till dina grannar. Informera gärna grannarna i förväg om du planerar en fest eller renovering som kan orsaka oljud.</p>
+                            </div>
+                        </div>
